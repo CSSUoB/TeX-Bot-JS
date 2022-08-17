@@ -1,4 +1,7 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+} = require("@discordjs/builders");
 require("../../config/config.js");
 
 const wait = require("util").promisify(setTimeout);
@@ -6,7 +9,9 @@ const wait = require("util").promisify(setTimeout);
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("writeroles")
-    .setDescription("Populates #roles with the correct messages."),
+    .setDescription("Populates #roles with the correct messages.")
+    .setDMPermission(false)
+    .setDefaultMemberPermissions(0),
   messageArr: [
     "\nReact to this message to get pronoun roles\n🇭 - He/Him\n🇸 - She/Her\n🇹 - They/Them",
     "_ _\nReact to this message to get year group roles\n0️⃣ - Foundation Year\n1️⃣ - First Year\n2️⃣ - Second Year\n🇫 - Final Year (incl. 3rd Year MSci/MEng)\n🇮 - Year in Industry\n🇦 - Year Abroad\n🇹 - Post-Graduate Taught (Masters/MSc) \n🇷 - Post-Graduate Research (PhD) \n🅰️ - Alumnus\n🇩 - Postdoc",
