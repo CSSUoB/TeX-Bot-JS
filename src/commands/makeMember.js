@@ -28,6 +28,7 @@ module.exports = {
     ),
   usedIDs: [],
   async execute(interaction) {
+    let dt = new Date().toUTCString();
     await interaction.deferReply({ ephemeral: true });
     await wait(1000);
 
@@ -40,13 +41,15 @@ module.exports = {
     const enc = hash.digest("hex");
 
     if (interaction.member.roles.cache.find((r) => r.name === "Member")) {
-      console.log(`Warning: ${interaction.user.tag} is already a member`);
+      console.log(
+        `${dt} - Warning: ${interaction.user.tag} is already a member`
+      );
       return await interaction.editReply({
         content: "You're already a member - why are you trying this again?",
       });
     } else if (this.usedIDs.includes(enc)) {
       console.log(
-        `Warning: ${interaction.user.tag} tried using an ID that has already been used.`
+        `Warning: $${dt} - {interaction.user.tag} tried using an ID that has already been used.`
       );
       return await interaction.editReply({
         content:
@@ -65,14 +68,18 @@ module.exports = {
       );
       await interaction.member.roles.add(role).catch(console.error);
 
-      console.log(`Warning: ${interaction.user.tag} has been made a member.`);
+      console.log(
+        `${dt} - Warning: ${interaction.user.tag} has been made a member.`
+      );
 
       await interaction.editReply({
         content: "Made you a Member!",
         ephemeral: true,
       });
     } else {
-      console.log(`Warning: ${interaction.user.tag} used an invalid ID.`);
+      console.log(
+        `${dt} - Warning: ${interaction.user.tag} used an invalid ID.`
+      );
       await interaction.editReply({
         content:
           "Invalid Student ID supplied. Please contact a Committee member.",
