@@ -15,6 +15,11 @@ module.exports = {
         .setName("user")
         .setDescription("The user to induct.")
         .setRequired(true)
+    )
+    .addBooleanOption((option) =>
+      option
+        .setName("silent")
+        .setDescription("Triggers whether a message is sent or not.")
     ),
   async execute(interaction) {
     let dt = new Date().toUTCString();
@@ -53,8 +58,13 @@ module.exports = {
     }
 
     await guildUser.roles.add(role);
+    await interaction.guild.members.fetch();
 
-    if (general.send(message)) {
+    if (
+      (!interaction.options.getBoolean("silent") && general.send(message)) ||
+      (interaction.options.getBoolean("silent") &&
+        guildUser.roles.cache.find((r) => r.name === "Guest"))
+    ) {
       console.log(
         `${dt} - Warning: ${interaction.user.tag} has inducted ${guildUser.user.tag} into CSS.`
       );
