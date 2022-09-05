@@ -27,6 +27,7 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
+    let dt = new Date().toUTCString();
     await interaction.deferReply({ ephemeral: true });
     await wait(1000);
 
@@ -34,41 +35,25 @@ module.exports = {
       (c) => c.name === interaction.options.getString("channel")
     );
 
-    console.log(interaction.options.getString("text").includes("\\n"));
-    console.log(interaction.options.getString("text"));
-
     let rebuilt = "";
 
     if (interaction.options.getString("text").includes("\\n")) {
       split = interaction.options.getString("text").split("\\n");
-      console.log(split);
       for (let section of split) {
-        /*if (section === split[0]) {
-          rebuilt += section;
-        } else {
-          rebuilt += "\r\n" + section;
-        }*/
         rebuilt += "\n" + section;
       }
     } else {
       rebuilt = interaction.options.getString("text");
     }
 
-    console.log(rebuilt);
-
-    //console.log(channel);
-    //channel.send(rebuilt);
-
     let pre = await channel.messages.fetch(
       interaction.options.getString("message")
     );
 
-    //console.log(pre);
-
     await pre.edit(rebuilt).then(
       (suc) => {
         console.log(
-          `Warning: ${interaction.commandName} has successfully edited a message.`
+          `${dt} - Warning: ${interaction.commandName} has successfully edited a message.`
         );
         return interaction.editReply({
           content: "Message successfully edited!",
@@ -76,7 +61,7 @@ module.exports = {
       },
       (err) => {
         console.log(
-          `Warning: ${interaction.commandName} has encountered an error editing a message.`
+          `${dt} - Warning: ${interaction.commandName} has encountered an error editing a message.`
         );
         return interaction.editReply({
           content: "There was a problem.",
