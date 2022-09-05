@@ -49,7 +49,7 @@ module.exports = {
       console.log(`${dt} - Error: #roles does not exist on this guild.`);
     }
 
-    let message = `Hey everyone! Please welcome ${user} to CSS - remember to grab your roles in ${roles} and say hello to everyone here!`;
+    let message = `Hey ${user}, welcome to CSS! :tada: Remember to grab your roles in ${roles} and say hello to everyone here! :wave:`;
 
     try {
       role = interaction.guild.roles.cache.find((r) => r.name === "Guest");
