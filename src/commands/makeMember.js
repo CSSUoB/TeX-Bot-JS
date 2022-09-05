@@ -49,7 +49,7 @@ module.exports = {
       });
     } else if (this.usedIDs.includes(enc)) {
       console.log(
-        `Warning: $${dt} - {interaction.user.tag} tried using an ID that has already been used.`
+        `Warning: ${dt} - ${interaction.user.tag} tried using an ID that has already been used.`
       );
       return await interaction.editReply({
         content:

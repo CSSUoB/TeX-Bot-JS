@@ -11,7 +11,7 @@ module.exports = {
       command.execute(interaction);
     } catch (err) {
       console.error(`${dt} - ${err}`);
-      interaction.replsy({
+      interaction.reply({
         content: "There was an errour while executing this command.",
         ephemeral: true,
       });

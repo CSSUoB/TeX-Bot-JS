@@ -49,7 +49,7 @@ module.exports = {
     try {
       role = interaction.guild.roles.cache.find((r) => r.name === "Guest");
     } catch (error) {
-      console.log(`{dt} - Error: @Guest does not exist on this guild.`);
+      console.log(`${dt} - Error: @Guest does not exist on this guild.`);
     }
 
     await guildUser.roles.add(role);
