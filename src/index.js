@@ -20,6 +20,17 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
+const contextMenuPath = path.join(__dirname, "contextmenu");
+const contextMenuFiles = fs
+  .readdirSync(contextMenuPath)
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of contextMenuFiles) {
+  const filePath = path.join(contextMenuPath, file);
+  const contextMenuCommand = require(filePath);
+  client.commands.set(contextMenuCommand.data.name, contextMenuCommand);
+}
+
 const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
   .readdirSync(eventsPath)
@@ -34,5 +45,7 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args));
   }
 }
+
+console.log(client.commands);
 
 client.login();

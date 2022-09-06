@@ -17,7 +17,21 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
+const contextMenuPath = path.join(__dirname, "contextmenu");
+const contextMenuFiles = fs
+  .readdirSync(contextMenuPath)
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of contextMenuFiles) {
+  const filePath = path.join(contextMenuPath, file);
+  const contextMenuCommand = require(filePath);
+  console.log(contextMenuCommand);
+  commands.push(contextMenuCommand.data.toJSON());
+}
+
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
+
+console.log(commands);
 
 rest
   .put(Routes.applicationCommands(process.env.CLIENTID), { body: commands })
