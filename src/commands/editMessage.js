@@ -31,9 +31,20 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true });
     await wait(1000);
 
-    let channel = interaction.guild.channels.cache.find(
-      (c) => c.name === interaction.options.getString("channel")
-    );
+    let channel, pre;
+
+    try {
+      channel = interaction.guild.channels.cache.find(
+        (c) => c.name === interaction.options.getString("channel")
+      );
+    } catch (error) {
+      console.log(
+        `${dt} - Warning : ${interaction.commandName} has encountered an error.`
+      );
+      return await interaction.editReply({
+        content: `There was an error.`,
+      });
+    }
 
     let rebuilt = "";
 
@@ -46,9 +57,18 @@ module.exports = {
       rebuilt = interaction.options.getString("text");
     }
 
-    let pre = await channel.messages.fetch(
-      interaction.options.getString("message")
-    );
+    try {
+      pre = await channel.messages.fetch(
+        interaction.options.getString("message")
+      );
+    } catch (error) {
+      console.log(
+        `${dt} - Warning: ${interaction.commandName} has encountered an error.`
+      );
+      return await interaction.editReply({
+        content: `There was an error.`,
+      });
+    }
 
     await pre.edit(rebuilt).then(
       (suc) => {
