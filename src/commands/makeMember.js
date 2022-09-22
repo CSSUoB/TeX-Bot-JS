@@ -4,6 +4,7 @@ const cheerio = require("cheerio");
 const tough = require("tough-cookie");
 const fs = require("fs");
 const crypto = require("crypto");
+const _ = require("lodash");
 require("../../config/config.js");
 
 const cookie = new tough.Cookie({
@@ -106,13 +107,25 @@ module.exports = {
       return;
     }
 
-    const memberArray = [];
+    const standardMembership = [];
+    const allMembers = [];
+    let memberArray = [];
 
     const $ = cheerio.load(result.data);
-    $("#ctl00_Main_gvMembers > tbody > tr > td:nth-child(2)").each(
-      (index, element) => {
-        memberArray[index] = $(element).text();
-      }
+    $(
+      "#ctl00_Main_rptGroups_ctl03_gvMemberships > tbody:nth-child(1) > tr > td:nth-child(2)"
+    ).each((index, element) => {
+      allMembers[index] = $(element).text();
+    });
+
+    $(
+      "#ctl00_Main_rptGroups_ctl05_gvMemberships > tbody:nth-child(1) > tr > td:nth-child(2)"
+    ).each((index, element) => {
+      standardMembership[index] = $(element).text();
+    });
+
+    memberArray = _.union(standardMembership, allMembers).filter(
+      (element) => element != ""
     );
 
     return memberArray;
