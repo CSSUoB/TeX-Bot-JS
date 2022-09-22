@@ -31,8 +31,6 @@ for (const file of contextMenuFiles) {
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 
-console.log(commands);
-
 rest
   .put(Routes.applicationCommands(process.env.CLIENTID), { body: commands })
   .then(() => console.log("Successfully registered application commands."))
